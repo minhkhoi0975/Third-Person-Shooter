@@ -1,6 +1,6 @@
 # Third-Person-Shooter
 (WIP) A third person shooter made with Unreal Engine 4. All scripts are written in Blueprints.
-Version 4.22 or better is required. 
+Requires version 4.22 or better.
 
 TODO:
   + AI:
