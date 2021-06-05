@@ -6,7 +6,6 @@ TODO:
   + AI:
     - Make the NPCs able to hear and touch.
     - Prevent the NPCs from shooting the walls.
-    - Make sure that the NPC's gun aims at the enemy before it starts shooting.
   + Decal:
     - Fix the bullet holes not apprearing on a character when it is shot.
   + Physics:
