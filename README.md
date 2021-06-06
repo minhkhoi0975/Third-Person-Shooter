@@ -12,3 +12,5 @@ TODO:
     - Add impulse to the dead body when it is shot.
   + Gameplay:
     - Create blueprints for doors, moving platforms, and launchpads.
+
+![](Screenshots/screenshot01.png)
