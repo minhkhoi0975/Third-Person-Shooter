@@ -4,7 +4,7 @@ Requires version 4.22 or better.
 
 TODO:
   + AI:
-    - Make the NPCs able to hear and touch.
+    - Make the NPCs alert when they get hurt by a projectile, or when an enemy touches them.
     - Prevent the NPCs from shooting the walls.
   + Decal:
     - Fix the bullet holes not apprearing on a character when it is shot.
