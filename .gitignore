@@ -73,5 +73,6 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-# Ignore Mixamo animation files
+# Ignore Mixamo animation files, except the bone mapping file
 Content/MyAssets/Character/Animation/MixamoBoneMapping/*
+!Content/MyAssets/Character/Animation/MixamoBoneMapping/BoneMapping.uasset
