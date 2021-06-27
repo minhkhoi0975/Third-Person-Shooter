@@ -13,4 +13,9 @@ TODO:
   + Gameplay:
     - Create blueprints for doors, moving platforms, and launchpads.
 
+Assets used in this project:
+   + Animation Starter Pack (https://www.unrealengine.com/marketplace/en-US/product/animation-starter-pack)
+   + Sci Fi Weapons Silver (https://www.unrealengine.com/marketplace/en-US/product/sci-fi-weapons-silver?sessionInvalidated=true)
+   + Tom Looman's Grid Material (https://www.tomlooman.com/updated-mockup-material-for-unreal-4/)
+
 ![](Screenshots/screenshot01.png)
