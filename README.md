@@ -8,8 +8,6 @@ TODO:
     - Prevent the NPCs from shooting at walls.
   + Decal:
     - Fix the bullet holes not apprearing on a character when it is shot.
-  + Physics:
-    - Add impulse to the dead body when it is shot.
   + Gameplay:
     - Create blueprints for doors, moving platforms, and launchpads.
 
