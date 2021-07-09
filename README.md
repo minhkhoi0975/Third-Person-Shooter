@@ -10,6 +10,8 @@ TODO:
     - Fix the bullet holes not apprearing on a character when it is shot.
   + Gameplay:
     - Create blueprints for doors, moving platforms, and launchpads.
+  + Animation:
+    - Improve melee animation.
 
 Assets used in this project:
    + Animation Starter Pack (https://www.unrealengine.com/marketplace/en-US/product/animation-starter-pack)
