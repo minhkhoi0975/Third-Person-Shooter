@@ -12,6 +12,8 @@ TODO:
     - Create blueprints for doors, moving platforms, and launchpads.
   + Animation:
     - Improve melee animation.
+  + Input:
+    - Fix the mouse input not working properly in the standalone game.
 
 Assets used in this project:
    + Animation Starter Pack (https://www.unrealengine.com/marketplace/en-US/product/animation-starter-pack)
