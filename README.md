@@ -1,5 +1,5 @@
 # Third-Person-Shooter
-(WIP) A third person shooter made with Unreal Engine 4. All scripts are written in Blueprints.
+(WIP) A third person shooter made with Unreal Engine 4. ~~All scripts are written in Blueprints.~~ This project originally contained only Blueprints. However, since some functions cannot be seen and overridden in Blueprints, and I may need to improve performance in the future, I had to convert the project into a C++ project.
 Requires version 4.22 or better.
 
 TODO:
