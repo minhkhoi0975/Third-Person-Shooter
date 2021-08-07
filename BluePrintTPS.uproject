@@ -3,6 +3,16 @@
 	"EngineAssociation": "4.22",
 	"Category": "",
 	"Description": "",
+	"Modules": [
+		{
+			"Name": "BluePrintTPS",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
 	"Plugins": [
 		{
 			"Name": "MegascansPlugin",
