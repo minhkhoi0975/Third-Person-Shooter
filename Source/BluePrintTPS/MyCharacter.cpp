@@ -40,46 +40,33 @@ bool AMyCharacter::CanBeSeenFrom(const FVector& ObserverLocation, FVector& OutSe
 
 	FHitResult HitResult;
 
-	auto sockets = GetMesh()->GetAllSocketNames();
+	auto Sockets = GetMesh()->GetAllSocketNames();
 
 	// Check if AI can detect character's bone.
-	for (int i = 0; i < sockets.Num(); i++)
+	for (int i = 0; i < Sockets.Num(); i++)
 	{
-		FVector socketLocation = GetMesh()->GetSocketLocation(sockets[i]);
-
-		//const bool bHitSocket = GetWorld()->LineTraceSingleByObjectType(HitResult, ObserverLocation, socketLocation
-		//	, FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_WorldStatic) | ECC_TO_BITFIELD(ECC_WorldDynamic)) // << Changed this line
-		//	, FCollisionQueryParams(NAME_AILineOfSight, true, IgnoreActor)
-		//);
-
+		FVector socketLocation = GetMesh()->GetSocketLocation(Sockets[i]);
 		const bool bHitSocket = GetWorld()->LineTraceSingleByChannel(HitResult, ObserverLocation, socketLocation, ECollisionChannel::ECC_Visibility, FCollisionQueryParams(NAME_AILineOfSight, true, IgnoreActor));
-
 		NumberOfLoSChecksPerformed++;
 
-		if (bHitSocket == false || (HitResult.Actor.IsValid() && HitResult.Actor->IsOwnedBy(this))) {
+		if (bHitSocket == false || (HitResult.Actor.IsValid() && HitResult.Actor->IsOwnedBy(this))) 
+		{
 			OutSeenLocation = socketLocation;
 			OutSightStrength = 1;
 			
-			UE_LOG(LogTemp, Error, TEXT("Detected a bone:"));
 			return true;
 		}
 	}
 
-	// Check if AI can detect "middle point".
-	//const bool bHit = GetWorld()->LineTraceSingleByObjectType(HitResult, ObserverLocation, GetActorLocation()
-	//	, FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_WorldStatic) | ECC_TO_BITFIELD(ECC_WorldDynamic)) // << Changed this line
-	//	, FCollisionQueryParams(NAME_AILineOfSight, true, IgnoreActor));
-
-	NumberOfLoSChecksPerformed++;
-
+	// Check if AI can detect character's "middle point".
 	const bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, ObserverLocation, GetActorLocation(), ECollisionChannel::ECC_Visibility, FCollisionQueryParams(NAME_AILineOfSight, true, IgnoreActor));
+	NumberOfLoSChecksPerformed++;
 
 	if (bHit == false || (HitResult.Actor.IsValid() && HitResult.Actor->IsOwnedBy(this)))
 	{
 		OutSeenLocation = GetActorLocation();
 		OutSightStrength = 1;
 
-		UE_LOG(LogTemp, Error, TEXT("Detected character"));
 		return true;
 	}
 
