@@ -1,11 +1,47 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "AdvancedSessionsLibrary.h"
-
 #include "GameFramework/PlayerState.h"
 #include "GameFramework/GameStateBase.h"
 
 //General Log
 DEFINE_LOG_CATEGORY(AdvancedSessionsLog);
+
+
+bool UAdvancedSessionsLibrary::KickPlayer(UObject* WorldContextObject, APlayerController* PlayerToKick, FText KickReason)
+{
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+
+	if (World)
+	{
+		if (AGameModeBase* GameMode = World->GetAuthGameMode())
+		{
+			if (GameMode->GameSession)
+			{
+				return GameMode->GameSession->KickPlayer(PlayerToKick, KickReason);
+			}
+		}
+	}
+
+	return false;
+}
+
+bool UAdvancedSessionsLibrary::BanPlayer(UObject* WorldContextObject, APlayerController* PlayerToBan, FText BanReason)
+{
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+
+	if (World)
+	{
+		if (AGameModeBase* GameMode = World->GetAuthGameMode())
+		{
+			if (GameMode->GameSession)
+			{
+				return GameMode->GameSession->BanPlayer(PlayerToBan, BanReason);
+			}
+		}
+	}
+
+	return false;
+}
 
 bool UAdvancedSessionsLibrary::IsValidSession(const FBlueprintSessionResult & SessionResult)
 {
@@ -25,9 +61,10 @@ void UAdvancedSessionsLibrary::GetSessionID_AsString(const FBlueprintSessionResu
 	SessionID.Empty();
 }
 
-void UAdvancedSessionsLibrary::GetCurrentSessionID_AsString(FString& SessionID)
+void UAdvancedSessionsLibrary::GetCurrentSessionID_AsString(UObject* WorldContextObject, FString& SessionID)
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(World);
 
 	if (!SessionInterface.IsValid()) 
 	{
@@ -126,9 +163,10 @@ void UAdvancedSessionsLibrary::GetExtraSettings(FBlueprintSessionResult SessionR
 	}
 }
 
-void UAdvancedSessionsLibrary::GetSessionState(EBPOnlineSessionState &SessionState)
+void UAdvancedSessionsLibrary::GetSessionState(UObject* WorldContextObject, EBPOnlineSessionState &SessionState)
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(World);
 
 	if (!SessionInterface.IsValid())
 	{
@@ -139,9 +177,10 @@ void UAdvancedSessionsLibrary::GetSessionState(EBPOnlineSessionState &SessionSta
 	SessionState = ((EBPOnlineSessionState)SessionInterface->GetSessionState(NAME_GameSession));
 }
 
-void UAdvancedSessionsLibrary::GetSessionSettings(int32 &NumConnections, int32 &NumPrivateConnections, bool &bIsLAN, bool &bIsDedicated, bool &bAllowInvites, bool &bAllowJoinInProgress, bool &bIsAnticheatEnabled, int32 &BuildUniqueID, TArray<FSessionPropertyKeyPair> &ExtraSettings, EBlueprintResultSwitch &Result)
+void UAdvancedSessionsLibrary::GetSessionSettings(UObject* WorldContextObject, int32 &NumConnections, int32 &NumPrivateConnections, bool &bIsLAN, bool &bIsDedicated, bool &bAllowInvites, bool &bAllowJoinInProgress, bool &bIsAnticheatEnabled, int32 &BuildUniqueID, TArray<FSessionPropertyKeyPair> &ExtraSettings, EBlueprintResultSwitch &Result)
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(World);
 
 	if (!SessionInterface.IsValid())
 	{
@@ -179,9 +218,10 @@ void UAdvancedSessionsLibrary::GetSessionSettings(int32 &NumConnections, int32 &
 	Result = EBlueprintResultSwitch::OnSuccess;
 }
 
-void UAdvancedSessionsLibrary::IsPlayerInSession(const FBPUniqueNetId &PlayerToCheck, bool &bIsInSession)
+void UAdvancedSessionsLibrary::IsPlayerInSession(UObject* WorldContextObject, const FBPUniqueNetId &PlayerToCheck, bool &bIsInSession)
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(World);
 
 	if (!SessionInterface.IsValid())
 	{
@@ -402,7 +442,7 @@ void UAdvancedSessionsLibrary::GetUniqueNetID(APlayerController *PlayerControlle
 
 	if (APlayerState* PlayerState = (PlayerController != NULL) ? PlayerController->PlayerState : NULL)
 	{
-		UniqueNetId.SetUniqueNetId(PlayerState->UniqueId.GetUniqueNetId());
+		UniqueNetId.SetUniqueNetId(PlayerState->GetUniqueId().GetUniqueNetId());
 		if (!UniqueNetId.IsValid())
 		{
 			UE_LOG(AdvancedSessionsLog, Warning, TEXT("GetUniqueNetIdFromController couldn't get the player uniquenetid!"));
@@ -419,7 +459,7 @@ void UAdvancedSessionsLibrary::GetUniqueNetIDFromPlayerState(APlayerState *Playe
 		return;
 	}
 
-	UniqueNetId.SetUniqueNetId(PlayerState->UniqueId.GetUniqueNetId());
+	UniqueNetId.SetUniqueNetId(PlayerState->GetUniqueId().GetUniqueNetId());
 	if (!UniqueNetId.IsValid())
 	{
 		UE_LOG(AdvancedSessionsLog, Warning, TEXT("GetUniqueNetIdFromPlayerState couldn't get the player uniquenetid!"));

@@ -200,6 +200,17 @@ public:
 			return nullptr;
 	}
 
+	// Adding in a compare operator so that std functions will work with this struct
+	FORCEINLINE bool operator==(const FBPUniqueNetId& Other) const
+	{
+		return (IsValid() && Other.IsValid() && (*GetUniqueNetId() == *Other.GetUniqueNetId()));
+	}
+
+	FORCEINLINE bool operator!=(const FBPUniqueNetId& Other) const
+	{
+		return !(IsValid() && Other.IsValid() && (*GetUniqueNetId() == *Other.GetUniqueNetId()));
+	}
+
 	FBPUniqueNetId()
 	{
 		bUseDirectPointer = false;
@@ -340,7 +351,7 @@ public:
 		//return const_cast<FUniqueNetId*>(UniqueNetIdPtr);
 		if (APlayerState* PlayerState = (PlayerController != NULL) ? PlayerController->PlayerState : NULL)
 		{
-			UserID = PlayerState->UniqueId.GetUniqueNetId();
+			UserID = PlayerState->GetUniqueId().GetUniqueNetId();
 			if (!UserID.IsValid())
 			{
 				FFrame::KismetExecutionMessage(*FString::Printf(TEXT("%s - Cannot map local player to unique net ID"), FunctionContext), ELogVerbosity::Warning);

@@ -22,7 +22,7 @@ UAdvancedFriendsGameInstance::UAdvancedFriendsGameInstance(const FObjectInitiali
 
 void UAdvancedFriendsGameInstance::Shutdown()
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(GetWorld());
 	
 	if (!SessionInterface.IsValid())
 	{
@@ -39,7 +39,7 @@ void UAdvancedFriendsGameInstance::Shutdown()
 
 	if (bEnableTalkingStatusDelegate)
 	{
-		IOnlineVoicePtr VoiceInterface = Online::GetVoiceInterface();
+		IOnlineVoicePtr VoiceInterface = Online::GetVoiceInterface(GetWorld());
 
 		if (VoiceInterface.IsValid())
 		{
@@ -52,7 +52,7 @@ void UAdvancedFriendsGameInstance::Shutdown()
 		}
 	}
 
-	IOnlineIdentityPtr IdentityInterface = Online::GetIdentityInterface();
+	IOnlineIdentityPtr IdentityInterface = Online::GetIdentityInterface(GetWorld());
 
 	if (IdentityInterface.IsValid())
 	{
@@ -69,7 +69,7 @@ void UAdvancedFriendsGameInstance::Shutdown()
 
 void UAdvancedFriendsGameInstance::Init()
 {
-	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface();//OnlineSub->GetSessionInterface();
+	IOnlineSessionPtr SessionInterface = Online::GetSessionInterface(GetWorld());//OnlineSub->GetSessionInterface();
 
 	if (SessionInterface.IsValid())
 	{
@@ -90,7 +90,7 @@ void UAdvancedFriendsGameInstance::Init()
 	// Beginning work on the voice interface
 	if (bEnableTalkingStatusDelegate)
 	{
-		IOnlineVoicePtr VoiceInterface = Online::GetVoiceInterface();
+		IOnlineVoicePtr VoiceInterface = Online::GetVoiceInterface(GetWorld());
 
 		if (VoiceInterface.IsValid())
 		{
@@ -103,7 +103,7 @@ void UAdvancedFriendsGameInstance::Init()
 		}
 	}
 
-	IOnlineIdentityPtr IdentityInterface = Online::GetIdentityInterface();
+	IOnlineIdentityPtr IdentityInterface = Online::GetIdentityInterface(GetWorld());
 
 	if (IdentityInterface.IsValid())
 	{
@@ -263,7 +263,7 @@ void UAdvancedFriendsGameInstance::OnSessionInviteReceivedMaster(const FUniqueNe
 		int32 LocalPlayer = 0;
 		for (int i = 0; i < PlayerList.Num(); i++)
 		{
-			if (*PlayerList[i]->PlayerState->UniqueId.GetUniqueNetId() == PersonInvited)
+			if (*PlayerList[i]->PlayerState->GetUniqueId().GetUniqueNetId() == PersonInvited)
 			{
 				LocalPlayer = i;
 				Player = PlayerList[i];

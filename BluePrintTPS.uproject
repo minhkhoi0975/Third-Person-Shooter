@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.22",
+	"EngineAssociation": "4.26",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -14,15 +14,5 @@
 			]
 		}
 	],
-	"Plugins": [
-		{
-			"Name": "MegascansPlugin",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Mac",
-				"Linux"
-			]
-		}
-	]
+	"Plugins": []
 }
