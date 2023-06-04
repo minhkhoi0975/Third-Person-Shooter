@@ -194,11 +194,10 @@ public:
 		}
 	}
 
-	/** Needed for TMap::GetTypeHash() */
-	friend uint32 GetTypeHash(const FUniqueNetIdSteam2& A)
+
+	virtual uint32 GetTypeHash() const override
 	{
-		return GetTypeHash(A.UniqueNetId);
-		//return (uint32)(A.UniqueNetId) + ((uint32)((A.UniqueNetId) >> 32) * 23);
+		return ::GetTypeHash(UniqueNetId);
 	}
 
 	/** Convenience cast to CSteamID */
@@ -273,7 +272,8 @@ enum class ESteamUserOverlayType : uint8
 
 static FString EnumToString(const FString& enumName, uint8 value)
 {
-	const UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, *enumName, true);
+	
+	const UEnum* EnumPtr = FindFirstObject<UEnum>(*enumName, EFindFirstObjectOptions::None, ELogVerbosity::Warning, TEXT("EumtoString"));
 
 	if (!EnumPtr)
 		return FString();
@@ -297,12 +297,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Online|SteamAPI|SteamGroups")
 		FString GroupTag;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Online|SteamAPI|SteamGroups")
-		int32 numOnline;
+		int32 numOnline = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Online|SteamAPI|SteamGroups")
-		int32 numInGame;
+		int32 numInGame = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Online|SteamAPI|SteamGroups")
-		int32 numChatting;
+		int32 numChatting = 0;
 
+};
+
+UENUM(Blueprintable)
+enum class EBPTextFilteringContext : uint8
+{
+	/*Unknown context.*/
+	FContext_Unknown = 0,
+	/*Game content, only legally required filtering is performed.*/
+	FContext_GameContent = 1,
+	/*Char from another player.*/
+	FContext_Chat = 2,
+	/*Character or item name.*/
+	FContext_Name = 3
 };
 
 UCLASS()
@@ -325,6 +338,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Online|AdvancedFriends|SteamAPI")
 		static bool OpenSteamUserOverlay(const FBPUniqueNetId UniqueNetId, ESteamUserOverlayType DialogType);
 	
+	// Returns if the steam overlay is currently active (this can return false during initial overlay hooking)
+	UFUNCTION(BlueprintPure, Category = "Online|AdvancedFriends|SteamAPI")
+		static bool IsOverlayEnabled();
+
 	// Gets the level of a friends steam account, STEAM ONLY, Returns -1 if the steam level is not known, might need RequestSteamFriendInfo called first.
 	UFUNCTION(BlueprintCallable, Category = "Online|AdvancedFriends|SteamAPI")
 	static int32 GetFriendSteamLevel(const FBPUniqueNetId UniqueNetId);
@@ -350,4 +367,21 @@ public:
 	// Get a full list of steam groups
 	UFUNCTION(BlueprintCallable, Category = "Online|SteamAPI|SteamGroups")
 		static void GetSteamGroups(TArray<FBPSteamGroupInfo> & SteamGroups);
+
+	// Initializes text filtering (pre-loading dictonaries)
+	// Returns if it succeeded, false if filtering is unavailable for the games language
+	UFUNCTION(BlueprintCallable, Category = "Online|SteamAPI|TextFiltering")
+		static bool InitTextFiltering();
+
+	// Attempts to filter a string with the given filtering context
+	// Returns true if the text has been filtered, false if it hasn't (no filtering required or operation failed)
+	// If false it will still output the original text
+	// Textsource is the steam id that is the source of the text (player name / chat)
+	// Requires that InitTextFiltering be called first!!
+	UFUNCTION(BlueprintCallable, Category = "Online|SteamAPI|TextFiltering")
+		static bool FilterText(FString TextToFilter, EBPTextFilteringContext Context, const FBPUniqueNetId TextSourceID, FString& FilteredText);
+
+	// Returns if steam is running in big picture mode
+	UFUNCTION(BlueprintPure, Category = "Online|SteamAPI")
+		static bool IsSteamInBigPictureMode();
 };	

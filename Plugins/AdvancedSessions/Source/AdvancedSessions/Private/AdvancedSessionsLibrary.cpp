@@ -528,3 +528,20 @@ void UAdvancedSessionsLibrary::GetNumberOfNetworkPlayers(UObject* WorldContextOb
 
 	NumNetPlayers = TheWorld->GetGameState()->PlayerArray.Num();
 }
+
+bool UAdvancedSessionsLibrary::ServerTravel(UObject* WorldContextObject, const FString& FURL, bool bAbsolute, bool bShouldSkipGameNotify)
+{
+	if (!WorldContextObject)
+	{
+		return false;
+	}
+
+	//using a context object to get the world
+	UWorld* const World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::ReturnNull);
+	if (World)
+	{
+		return World->ServerTravel(FURL, bAbsolute, bShouldSkipGameNotify);
+	}
+
+	return false;
+}

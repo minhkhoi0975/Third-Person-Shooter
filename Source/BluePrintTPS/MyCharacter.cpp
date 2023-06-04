@@ -34,6 +34,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 }
 
+/*
 bool AMyCharacter::CanBeSeenFrom(const FVector& ObserverLocation, FVector& OutSeenLocation, int32& NumberOfLoSChecksPerformed, float& OutSightStrength, const AActor* IgnoreActor) const
 {
 	static const FName NAME_AILineOfSight = FName(TEXT("TestPawnLineOfSight"));
@@ -73,4 +74,5 @@ bool AMyCharacter::CanBeSeenFrom(const FVector& ObserverLocation, FVector& OutSe
 	OutSightStrength = 0;
 	return false;
 }
+*/
 
