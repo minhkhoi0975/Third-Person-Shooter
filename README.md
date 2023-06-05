@@ -1,4 +1,7 @@
 # Third-Person-Shooter
+
+**Update: The project will be migrated to another repo since I want to make it work on Unreal 5.2, and I want to rewrite some gameplay logic in C++ instead of Blueprints. However, this repo will still be available for reference.**
+
 (WIP) A third person shooter made with Unreal Engine 4. ~~All scripts are written in Blueprints.~~ This project originally contained only Blueprints. However, since some functions cannot be seen and overridden in Blueprints, and I may need to improve performance in the future, I had to convert the project into a C++ project.
 This project requires Unreal Engine 4.22. If you want to upgrade the project to the latest version of Unreal Engine 4, you may have to change the source code.
 
