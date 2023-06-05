@@ -15,6 +15,6 @@ class BLUEPRINTTPS_API AMyAIController : public AAIController
 	GENERATED_BODY()
 
 public:
-	virtual FVector GetFocalPointOnActor(const AActor* Actor) const override;
+	//virtual FVector GetFocalPointOnActor(const AActor* Actor) const override;
 	
 };

@@ -8,7 +8,7 @@
 #include "MyCharacter.generated.h"
 
 UCLASS()
-class BLUEPRINTTPS_API AMyCharacter : public ACharacter, public IAISightTargetInterface
+class BLUEPRINTTPS_API AMyCharacter : public ACharacter //, public IAISightTargetInterface
 {
 	GENERATED_BODY()
 public:

@@ -4,6 +4,7 @@
 #include "MyAIController.h"
 #include "MyCharacter.h"
 
+/*
 FVector AMyAIController::GetFocalPointOnActor(const AActor* Actor) const
 {
 	// Check if the actor is a character. If it does, get the half height of the capsule component.
@@ -15,3 +16,4 @@ FVector AMyAIController::GetFocalPointOnActor(const AActor* Actor) const
 	// Otherwise, return the location of the character's pivot point.
 	return Actor->GetActorLocation();
 }
+*/
